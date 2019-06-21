@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Play Rock Paper Scissors</title>
+    </head>
+    <body>
+        <script>
+            function computerPlay () {
+                let randomNumber = getRandomInt(1, 3);
+                let computerSelection = undefined;
+
+                switch (randomNumber) {
+                    case 1:
+                    default:
+                        computerSelection = 'Rock';
+                        break;
+                    case 2:
+                        computerSelection = 'Paper';
+                        break;
+                    case 3:
+                        computerSelection = 'Scissors';
+                        break;
+                }
+
+                return computerSelection;
+            }
+
+            function playRound (playerSelection, computerSelection) {
+                let result = undefined;
+
+                switch (playerSelection) {
+                    case 'Rock':
+                        if (computerSelection == 'Rock') {
+                            result = 'Draw';
+                        } else if (computerSelection == 'Paper') {
+                            result = 'Computer';
+                        } else {
+                            result = 'Player';
+                        }
+                        break;
+                    
+                    case 'Paper':
+                        if (computerSelection == 'Paper') {
+                            result = 'Draw';
+                        } else if (computerSelection == 'Scissors') {
+                            result = 'Computer';
+                        } else {
+                            result = 'Player';
+                        }
+                        break;
+                    
+                    case 'Scissors':
+                        if (computerSelection == 'Scissors') {
+                            result = 'Draw';
+                        } else if (computerSelection == 'Rock') {
+                            result = 'Computer';
+                        } else {
+                            result = 'Player';
+                        }
+                        break;
+                }
+                return result;
+            }
+
+            function selectGameWinner (playerScore, computerScore) {
+                let winner = undefined;
+
+                if (playerScore > computerScore) {
+                    winner = 'Player';
+                } else if (playerScore < computerScore) {
+                    winner = 'Computer';
+                } else {
+                    winner = 'Draw';
+                }
+
+                return winner;
+            }
+
+            function getPlayerInput () {
+                let playerInput = window.prompt('Enter Rock, Paper or Scissors');
+                //check with reg ex for simpler validation
+                playerInput = playerInput.toLowerCase();
+                playerInput = capitalize(playerInput);
+
+                while (playerInput !== 'Rock' && playerInput !== 'Paper' && playerInput !== 'Scissors') {
+                    playerInput = window.prompt('Please enter either Rock, Paper or Scissors - not case sensitive');
+                    playerInput = playerInput.toLowerCase();
+                    playerInput = capitalize(playerInput);
+                }
+
+                return playerInput;             
+            }
+
+            function game() {
+                let computerScore = 0;
+                let playerScore = 0;
+                let numberOfRounds = 5;
+                let playerSelection, computerSelection, gameWinner, roundResult = undefined;
+
+                for (let i  = 0; i < numberOfRounds; i++) {
+                    console.log('Round: ' + (i + 1));
+                    playerSelection = getPlayerInput();
+                    computerSelection = computerPlay();
+                    roundResult = playRound(playerSelection, computerSelection);
+
+                    if (roundResult == 'Player') {
+                        playerScore ++;
+                    } else if (roundResult == 'Computer') {
+                        computerScore ++;
+                    }
+
+                    if (roundResult == 'Player' || roundResult == 'Computer') {
+                        console.log(`The ${roundResult} wins the round!`);
+                    } else {
+                        console.log(`This round is a draw!`);
+                    }                    
+
+                }
+
+                gameWinner = selectGameWinner(playerScore, computerScore);
+                if (gameWinner == 'Player' || gameWinner == 'Computer') {
+                    console.log(`The ${gameWinner} wins the game!`);
+                } else {
+                    console.log(`Wow the game is a total draw!`);
+                }  
+                console.log('Game Over! Refresh page to play again.');
+            }
+
+            function capitalize (text) {
+                return text.charAt(0).toUpperCase() + text.slice(1);
+            }
+
+            function getRandomInt (min, max) {
+                return Math.floor(Math.random() * (max - min +1)) + min;
+            }
+
+            game();            
+
+        </script>
+    </body>
+</html>
